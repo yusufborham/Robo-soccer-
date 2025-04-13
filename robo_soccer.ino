@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include <PS4Controller.h>
 
 // Define motor driver pins for horizontal thrusters
 // Motor driver pins for horizontal thrusters (A, B, C, D)
@@ -13,6 +14,9 @@
 
 #define motor4PwmA 5
 #define motor4PwmB 17
+
+#define motor5PwmA 22
+#define motor5PwmB 23
 
 // Define Motor Positions for the robot
 
@@ -127,18 +131,27 @@ void setup_H_motors()
 
 void setup()
 {
-  Serial.begin(115200); // Initialize serial communication for debugging
-  setup_H_motors();     // Setup horizontal motors
-                        // Initialize other components as needed
+  Serial.begin(115200);           // Initialize serial communication for debugging
+  setup_H_motors();               // Setup horizontal motors
+  pinMode(motor5PwmA, OUTPUT);
+  pinMode(motor5PwmB, OUTPUT);
+  PS4.begin("1a:2b:3c:01:01:01"); // Initialize other components as needed
 }
 
 void loop()
 {
-  // Read input forces (Fx, Fy, Tau) from sensors or other sources
-  // For example, you can read from serial or use predefined values for testing
-  inputH[0] = 10; // Example value for Fx
-  inputH[1] = 5;  // Example value for Fy
-  inputH[2] = 2;  // Example value for Tau
+  if(PS4.isConnected())
+  {
+    digitalWrite(motor5PwmA, PS4.L1() || PS4.R1());
+    // TODO: Add logic for inputH based on PS4 controller inputs
+  }
+  else
+  {
+    Serial.println("PS4 controller not connected");
+    inputH[0] = 0; // Fx
+    inputH[1] = 0; // Fy
+    inputH[2] = 0; // Tau
+  }
 
   // Compute horizontal thrust forces
   ComputeHorizontalThrustForces(inputH, T_inverse_Horizontal, outputHorizontalThrusters);
@@ -146,5 +159,8 @@ void loop()
   // Control horizontal motors based on computed thrust forces
   controlHmotors();
 
-  delay(100); // Add a delay to avoid overwhelming the loop
+  // Print output forces for debugging
+  Serial.printf("Output Forces: %f %f %f %f\n", outputHorizontalThrusters[0], outputHorizontalThrusters[1], outputHorizontalThrusters[2], outputHorizontalThrusters[3]);
+
+  delay(10); // Add a delay to avoid overwhelming the loop
 }
