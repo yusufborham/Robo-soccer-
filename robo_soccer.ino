@@ -52,7 +52,7 @@ double T_inverse_Horizontal[4][3] = {
 
 float outputHorizontalThrusters[4] = {0, 0, 0, 0};
 // Vertical thrust motor driver pins
-int HorizontalThrusterSp1[4] = {pwmV1_1, pwmV2_1, pwmV3_1, pwmV4_1}; // all pins for forrward motion
+int HorizontalThrusterSp1[4] = {pwmV1_1, pwmV2_1, pwmV3_1, pwmV4_1}; // all pins for forward motion
 int HorizontalThrusterSp2[4] = {pwmV1_2, pwmV2_2, pwmV3_2, pwmV4_2}; // all pins for backward motion
 
 // Apply constraints to the thruster forces
@@ -81,7 +81,7 @@ void applyConstraints(float *thruster_forces, int size, float max_force)
   }
 }
 
-void ComputeHorrizontalThrustForces(double *input, double T_inverse[4][3], float *outputThrusters)
+void ComputeHorizontalThrustForces(double *input, double T_inverse[4][3], float *outputThrusters)
 {
 
   // Perform matrix multiplication outputThrusters = T_inverse * input
@@ -128,8 +128,8 @@ void setup_H_motors()
 void setup()
 {
   Serial.begin(115200); // Initialize serial communication for debugging
-  setup_H_motors();   // Setup horizontal motors
-                      // Initialize other components as needed
+  setup_H_motors();     // Setup horizontal motors
+                        // Initialize other components as needed
 }
 
 void loop()
@@ -141,7 +141,7 @@ void loop()
   inputH[2] = 2;  // Example value for Tau
 
   // Compute horizontal thrust forces
-  ComputeHorrizontalThrustForces(inputH, T_inverse_Horizontal, outputHorizontalThrusters);
+  ComputeHorizontalThrustForces(inputH, T_inverse_Horizontal, outputHorizontalThrusters);
 
   // Control horizontal motors based on computed thrust forces
   controlHmotors();
