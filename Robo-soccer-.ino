@@ -2,20 +2,28 @@
 
 // Define motor driver pins for horizontal thrusters
 // Motor driver pins for horizontal thrusters (A, B, C, D)
-#define motor1PwmA 33
-#define motor1PwmB 25
+#define motor1PwmA 14
+#define motor1PwmB 27
 
-#define motor2PwmA 27
-#define motor2PwmB 14
+#define motor2PwmA 26
+#define motor2PwmB 15
 
-#define motor3PwmA 12
-#define motor3PwmB 13
+#define motor3PwmA 19
+#define motor3PwmB 18
 
-#define motor4PwmA 23
-#define motor4PwmB 22
+#define motor4PwmA 5
+#define motor4PwmB 17
 
 // Define Motor Positions for the robot 
 
+// B ###################### A //      \    /
+//                            //       \  /
+//                            //        \/
+//                            //        /\
+// C ###################### D //       /  \
+//                                    /    \
+
+// pwmV(motor number)_(motor pin)
 // A
 #define pwmV1_1 motor1PwmA
 #define pwmV1_2 motor1PwmB
@@ -38,10 +46,10 @@ double inputH[3] = { 0, 0, 0 }; // Fx , Fy , Tau
 
 // Pseudoinverse matrices
 double T_inverse_Horizontal[4][3] = {
-    { 0.25, 0.25, 0.25 },
-    { 0.25, -0.25, -0.25 },
-    { 0.25, 0.25, -0.25 },
-    { 0.25, -0.25, 0.25 }
+    { 0.25,  0.25 ,  0.25 },
+    { 0.25, -0.25 , -0.25 },
+    { 0.25,  0.25 , -0.25 },
+    { 0.25, -0.25 ,  0.25 }
   };
 
 float outputHorizontalThrusters[4] = { 0, 0, 0, 0 };
