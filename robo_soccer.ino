@@ -142,8 +142,12 @@ void loop()
 {
   if(PS4.isConnected())
   {
-    digitalWrite(motor5PwmA, PS4.L1() || PS4.R1());
-    // TODO: Add logic for inputH based on PS4 controller inputs
+    digitalWrite(motor5PwmA, PS4.L1() || PS4.R1()); // Solenoid Control
+    inputH[0] = map(PS4.LStickX(), -128, 127, -1020, 1020); // Fx
+    inputH[1] = map(PS4.LStickY(), -128, 127, -1020, 1020); // Fy
+    inputH[2] = map(PS4.RStickX(), -128, 127, -1020, 1020); // Tau
+    // Print input values for debugging
+    Serial.printf("Input Forces: %f %f %f\n", inputH[0], inputH[1], inputH[2]);
   }
   else
   {
