@@ -51,10 +51,10 @@ double inputH[3] = { 0, 0, 0 };  // Fx , Fy , Tau
 
 // Pseudoinverse matrices
 double T_inverse_Horizontal[4][3] = {
-  { 0.25, 0.25, 0.25 },
-  { 0.25, -0.25, -0.25 },
+  { 0.25, -0.25, 0.25 },
   { 0.25, 0.25, -0.25 },
-  { 0.25, -0.25, 0.25 }
+  { 0.25, -0.25, -0.25 },
+  { 0.25, 0.25, 0.25 }
 };
 
 float outputHorizontalThrusters[4] = { 0, 0, 0, 0 };
@@ -133,6 +133,7 @@ void loop()
     inputH[0] = abs(PS4.LStickY()) > DEAD_ZONE ? map(PS4.LStickY(), -128, 127, -1020, 1020) : 0; // Fy
     inputH[1] = abs(PS4.LStickX()) > DEAD_ZONE ? map(PS4.LStickX(), -128, 127, -1020, 1020) : 0; // Fx
     inputH[2] = abs(PS4.RStickX()) > DEAD_ZONE ? map(PS4.RStickX(), -128, 127, -1020, 1020) : 0; // Tau
+    inputH[2] *= -1;
     // Print input values for debugging
     Serial.printf("Input Forces: %f %f %f\t", inputH[0], inputH[1], inputH[2]);
   }
